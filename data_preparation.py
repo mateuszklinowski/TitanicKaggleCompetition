@@ -42,4 +42,22 @@ titanic_df['Third_class'] = titanic_df.apply(lambda row: detectClass(row, 3), ax
 # Drop unnecessary columns
 titanic_df = titanic_df.drop(['Name', 'Ticket', 'Cabin', 'Embarked', 'Sex', 'Pclass'], axis=1)
 
-print(titanic_df.head())
+# Drop rows with NaN
+titanic_df = titanic_df[np.isfinite(titanic_df['Age'])]
+titanic_df = titanic_df[np.isfinite(titanic_df['Fare'])]
+titanic_df = titanic_df[np.isfinite(titanic_df['SibSp'])]
+titanic_df = titanic_df[np.isfinite(titanic_df['Parch'])]
+
+# Randomize order 
+titanic_df =  titanic_df.sample(frac=1).reset_index(drop=True)
+
+# Splits to test and training set
+training_df = titanic_df.iloc[:600,:]
+test_df = titanic_df.iloc[600:,:]
+
+titanic_df.to_csv('data/prepared_all.csv')
+training_df.to_csv('data/prepared_training.csv')
+test_df.to_csv('data/prepared_test.csv')
+
+print(test_df.head())
+print(test_df.describe())
