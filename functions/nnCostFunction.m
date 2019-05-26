@@ -13,7 +13,6 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-  
 % Setup some useful variables
 m = size(X, 1);
          
@@ -23,8 +22,7 @@ Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
 
-Y = labelMatrix(y,num_labels);
-
+Y = y;
 % Part 1 cost function for NN
 a1 = [ones(m,1) X];
 z2 = a1*Theta1';
