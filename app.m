@@ -3,8 +3,8 @@ clear ; close all; clc
 addpath ("./functions")
 
 # NN structure definition
-input_layer_size = 8;
-hidden_layer_size = 6;
+input_layer_size = 12;
+hidden_layer_size = 3;
 output_layes_size = 1;
 num_labels = 1;
 
@@ -35,8 +35,8 @@ initial_nn_params = [initial_Theta1(:) ; initial_Theta2(:)];
 # Training NN network using fminunc
 
 fprintf('\nTraining Neural Network... \n')
-
-options = optimset('MaxIter', 200);
+iterations = 300;
+options = optimset('MaxIter', iterations);
 
 %  You should also try different values of lambda
 lambda = 0.01;
@@ -59,17 +59,21 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-fprintf('Program paused. Press enter to continue.\n');
-pause;
 
 %% ================= Accuracy =================
 
 save nn_params.mat nn_params;
 save cost.mat cost;
 
-pred = predict(Theta1, Theta2, X);
 
+%% ======================= Plotting =======================
+plot(1:iterations, cost);
+xlabel('Iterations')
+ylabel('Cost function value')
+
+threshold = 0.55;
+pred = predict(Theta1, Theta2, X, threshold);
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
-pred = predict(Theta1, Theta2, X_test);
+pred = predict(Theta1, Theta2, X_test, threshold);
 fprintf('\nTest Set Accuracy: %f\n', mean(double(pred == y_test)) * 100);

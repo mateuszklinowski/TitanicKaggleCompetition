@@ -3,8 +3,8 @@ clear ; close all; clc
 addpath ("./functions")
 
 # NN structure definition
-input_layer_size = 10;
-hidden_layer_size = 10;
+input_layer_size = 12;
+hidden_layer_size = 1;
 output_layes_size = 1;
 num_labels = 1;
 
@@ -29,7 +29,7 @@ Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
 Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
-pred = predict(Theta1, Theta2, X);
+pred = predict(Theta1, Theta2, X, 0.7);
 
 submition = [data(:,2) pred];
 
